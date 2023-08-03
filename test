@@ -1,0 +1,37 @@
+export default {
+  // 기타 설정들...
+
+  css: [
+    // 공통으로 사용할 SCSS 파일을 호출합니다.
+    '@/assets/css/common.scss',
+  ],
+
+  // 페이지 폴더명에 따라 SCSS 파일들을 분기하여 호출합니다.
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.forEach((route) => {
+        const { chunkName, path } = route;
+        // 페이지의 폴더명을 추출합니다.
+        const pageFolder = path.split('/')[1];
+
+        // "swing" 폴더에 해당하는 페이지들에 대해 SCSS 파일들을 호출합니다.
+        if (pageFolder === 'swing') {
+          route.styleResources = {
+            scss: [
+              '@/assets/css/swing/*.scss',
+            ],
+          };
+        } else {
+          // 그 외 폴더에 해당하는 페이지들에 대해 SCSS 파일들을 호출합니다.
+          route.styleResources = {
+            scss: [
+              '@/assets/css/*.scss',
+            ],
+          };
+        }
+      });
+    },
+  },
+
+  // 기타 설정들...
+};
